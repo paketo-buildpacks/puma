@@ -1,5 +1,12 @@
 package main
 
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"regexp"
+)
+
 type GemfileParser struct{}
 
 func NewGemfileParser() GemfileParser {
@@ -7,33 +14,32 @@ func NewGemfileParser() GemfileParser {
 }
 
 func (p GemfileParser) Parse(path string) (bool, bool, error) {
-	return false, false, nil
+	file, err := os.Open(path)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return false, false, nil
+		}
+		return false, false, fmt.Errorf("failed to parse Gemfile: %w", err)
+	}
+	defer file.Close()
+
+	quotes := `["']`
+	mriRe := regexp.MustCompile(`^ruby .*`)
+	pumaRe := regexp.MustCompile(fmt.Sprintf(`^gem %spuma%s`, quotes, quotes))
+
+	hasMri := false
+	hasPuma := false
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := []byte(scanner.Text())
+		if hasMri == false {
+			hasMri = mriRe.Match(line)
+		}
+		if hasPuma == false {
+			hasPuma = pumaRe.Match(line)
+		}
+	}
+
+	return hasMri, hasPuma, nil
 }
-
-//func (p GemfileParser) ParseVersion(path string) (string, error) {
-// file, err := os.Open(path)
-// if err != nil {
-// 	if os.IsNotExist(err) {
-// 		return "", nil
-// 	}
-
-// 	return "", fmt.Errorf("failed to parse Gemfile: %w", err)
-// }
-
-// quotes := `["']`
-// versionOperators := `~>|<|>|<=|>=|=`
-// versionNumber := `\d+\.\d+\.\d+`
-// expression := fmt.Sprintf(`ruby %s((%s)?\s*%s)%s`, quotes, versionOperators, versionNumber, quotes)
-// re := regexp.MustCompile(expression)
-
-// scanner := bufio.NewScanner(file)
-// for scanner.Scan() {
-// 	matches := re.FindStringSubmatch(scanner.Text())
-
-// 	if len(matches) == 3 {
-// 		return matches[1], nil
-// 	}
-// }
-
-// return "", nil
-// }
