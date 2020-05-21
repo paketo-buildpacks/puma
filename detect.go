@@ -39,6 +39,12 @@ func Detect(gemfileParser Parser) packit.DetectFunc {
 						},
 					},
 					{
+						Name: "bundler",
+						Metadata: BuildPlanMetadata{
+							Launch: true,
+						},
+					},
+					{
 						Name: "mri",
 						Metadata: BuildPlanMetadata{
 							Launch: true,

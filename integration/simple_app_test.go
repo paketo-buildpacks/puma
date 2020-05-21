@@ -56,7 +56,7 @@ func testSimpleApp(t *testing.T, context spec.G, it spec.S) {
 				Execute(name, filepath.Join("testdata", "simple_app"))
 			Expect(err).NotTo(HaveOccurred())
 
-			container, err = docker.Container.Run.Execute(image.ID)
+			container, err = docker.Container.Run.WithEnv(map[string]string{"PORT": "9292"}).Execute(image.ID)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(container).Should(BeAvailable(), ContainerLogs(container.ID))

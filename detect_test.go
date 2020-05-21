@@ -1,6 +1,7 @@
 package main_test
 
 import (
+	"errors"
 	"os"
 	"path/filepath"
 	"testing"
@@ -29,11 +30,7 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 		workingDir, err = ioutil.TempDir("", "working-dir")
 		Expect(err).NotTo(HaveOccurred())
 
-		const GEMFILE_CONTENTS = `source 'https://rubygems.org'
-ruby '~> 2.0'
-
-gem 'puma'`
-		err = ioutil.WriteFile(filepath.Join(workingDir, "Gemfile"), []byte(GEMFILE_CONTENTS), 0644)
+		err = ioutil.WriteFile(filepath.Join(workingDir, "Gemfile"), []byte{}, 0644)
 		Expect(err).NotTo(HaveOccurred())
 
 		gemfileParser = &fakes.Parser{}
@@ -45,28 +42,40 @@ gem 'puma'`
 		Expect(os.RemoveAll(workingDir)).To(Succeed())
 	})
 
-	it.Focus("returns a plan that provides gems", func() {
-		result, err := detect(packit.DetectContext{
-			WorkingDir: workingDir,
+	context("when the Gemfile lists puma and mri", func() {
+		it.Before(func() {
+			gemfileParser.ParseCall.Returns.HasPuma = true
+			gemfileParser.ParseCall.Returns.HasMri = true
 		})
-		Expect(err).NotTo(HaveOccurred())
-		Expect(result.Plan).To(Equal(packit.BuildPlan{
-			Provides: []packit.BuildPlanProvision{},
-			Requires: []packit.BuildPlanRequirement{
-				{
-					Name: "gems",
-					Metadata: main.BuildPlanMetadata{
-						Launch: true,
+		it("detects", func() {
+			result, err := detect(packit.DetectContext{
+				WorkingDir: workingDir,
+			})
+			Expect(err).NotTo(HaveOccurred())
+			Expect(result.Plan).To(Equal(packit.BuildPlan{
+				Provides: []packit.BuildPlanProvision{},
+				Requires: []packit.BuildPlanRequirement{
+					{
+						Name: "gems",
+						Metadata: main.BuildPlanMetadata{
+							Launch: true,
+						},
+					},
+					{
+						Name: "bundler",
+						Metadata: main.BuildPlanMetadata{
+							Launch: true,
+						},
+					},
+					{
+						Name: "mri",
+						Metadata: main.BuildPlanMetadata{
+							Launch: true,
+						},
 					},
 				},
-				{
-					Name: "mri",
-					Metadata: main.BuildPlanMetadata{
-						Launch: true,
-					},
-				},
-			},
-		}))
+			}))
+		})
 	})
 
 	context("when the Gemfile does not list puma", func() {
@@ -81,17 +90,17 @@ gem 'puma'`
 			Expect(err).To(MatchError(packit.Fail))
 		})
 	})
-	//
-	// context("when the buildpack.yml parser fails", func() {
-	// 	it.Before(func() {
-	// 		gemfileParser.ParseVersionCall.Returns.Err = errors.New("some-error")
-	// 	})
-	//
-	// 	it("returns an error", func() {
-	// 		_, err := detect(packit.DetectContext{
-	// 			WorkingDir: workingDir,
-	// 		})
-	// 		Expect(err).To(MatchError("failed to parse Gemfile: some-error"))
-	// 	})
-	// })
+
+	context("when the gemfile parser fails", func() {
+		it.Before(func() {
+			gemfileParser.ParseCall.Returns.Err = errors.New("some-error")
+		})
+
+		it("returns an error", func() {
+			_, err := detect(packit.DetectContext{
+				WorkingDir: workingDir,
+			})
+			Expect(err).To(MatchError("failed to parse Gemfile: some-error"))
+		})
+	})
 }
