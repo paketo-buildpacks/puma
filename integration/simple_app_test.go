@@ -75,11 +75,10 @@ func testSimpleApp(t *testing.T, context spec.G, it spec.S) {
 			buildpackVersion, err := GetGitVersion()
 			Expect(err).ToNot(HaveOccurred())
 
-			command := fmt.Sprintf(`BUNDLE_GEMFILE="%s" bundle exec puma`, filepath.Join("/workspace", "Gemfile"))
 			Expect(logs).To(ContainLines(
 				fmt.Sprintf("Puma Buildpack %s", buildpackVersion),
 				"  Writing start command",
-				fmt.Sprintf("    %s", command),
+				"    bundle exec puma",
 			))
 		})
 	})

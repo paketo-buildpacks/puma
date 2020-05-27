@@ -2,10 +2,8 @@ package main_test
 
 import (
 	"bytes"
-	"fmt"
 	"io/ioutil"
 	"os"
-	"path/filepath"
 	"testing"
 
 	"github.com/paketo-buildpacks/packit"
@@ -75,7 +73,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 			Processes: []packit.Process{
 				{
 					Type:    "web",
-					Command: fmt.Sprintf(`BUNDLE_GEMFILE="%s" bundle exec puma`, filepath.Join(workingDir, "Gemfile")),
+					Command: "bundle exec puma",
 				},
 			},
 		}))
