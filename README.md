@@ -4,10 +4,10 @@ The Puma CNB sets the start command for a given ruby application that runs on a 
 
 ## Integration
 
-It provides `puma` as a dependency, but currently there's no scenario
-we can imagine that you would use a downstream buildpack to require this
-dependency. If a user likes to include some other functionality, it can be done
-independent of the Puma CNB without requiring a dependency of it.
+This CNB writes a start command, so there's currently no scenario we can
+imagine that you would need to require it as dependency. If a user likes to
+include some other functionality, it can be done independent of the Puma CNB
+without requiring a dependency of it.
 
 To package this buildpack for consumption:
 ```

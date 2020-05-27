@@ -14,7 +14,6 @@ type Parser interface {
 }
 
 type BuildPlanMetadata struct {
-	Build  bool `toml:"build"`
 	Launch bool `toml:"launch"`
 }
 
