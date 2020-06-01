@@ -48,7 +48,6 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 	context("when the Gemfile lists puma and mri", func() {
 		it.Before(func() {
 			gemfileParser.ParseCall.Returns.HasPuma = true
-			gemfileParser.ParseCall.Returns.HasMri = true
 		})
 		it("detects", func() {
 			result, err := detect(packit.DetectContext{
@@ -97,7 +96,7 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 	context("when the workingDir does not have a config.ru", func() {
 		it.Before(func() {
 			gemfileParser.ParseCall.Returns.HasPuma = true
-			gemfileParser.ParseCall.Returns.HasMri = true
+
 			Expect(os.Remove(filepath.Join(workingDir, "config.ru"))).To(Succeed())
 		})
 
