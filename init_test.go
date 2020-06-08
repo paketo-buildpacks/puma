@@ -1,4 +1,4 @@
-package main_test
+package puma_test
 
 import (
 	"testing"

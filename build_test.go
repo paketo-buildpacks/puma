@@ -1,4 +1,4 @@
-package main_test
+package puma_test
 
 import (
 	"bytes"
@@ -8,7 +8,7 @@ import (
 
 	"github.com/paketo-buildpacks/packit"
 	"github.com/paketo-buildpacks/packit/scribe"
-	main "github.com/paketo-community/puma"
+	"github.com/paketo-community/puma"
 	"github.com/sclevine/spec"
 
 	. "github.com/onsi/gomega"
@@ -40,7 +40,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		buffer = bytes.NewBuffer(nil)
 		logger := scribe.NewLogger(buffer)
 
-		build = main.Build(logger)
+		build = puma.Build(logger)
 	})
 
 	it.After(func() {

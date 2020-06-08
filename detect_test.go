@@ -1,4 +1,4 @@
-package main_test
+package puma_test
 
 import (
 	"errors"
@@ -9,7 +9,7 @@ import (
 	"io/ioutil"
 
 	"github.com/paketo-buildpacks/packit"
-	main "github.com/paketo-community/puma"
+	"github.com/paketo-community/puma"
 	"github.com/paketo-community/puma/fakes"
 	"github.com/sclevine/spec"
 
@@ -38,7 +38,7 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 
 		gemfileParser = &fakes.Parser{}
 
-		detect = main.Detect(gemfileParser)
+		detect = puma.Detect(gemfileParser)
 	})
 
 	it.After(func() {
@@ -59,19 +59,19 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 				Requires: []packit.BuildPlanRequirement{
 					{
 						Name: "gems",
-						Metadata: main.BuildPlanMetadata{
+						Metadata: puma.BuildPlanMetadata{
 							Launch: true,
 						},
 					},
 					{
 						Name: "bundler",
-						Metadata: main.BuildPlanMetadata{
+						Metadata: puma.BuildPlanMetadata{
 							Launch: true,
 						},
 					},
 					{
 						Name: "mri",
-						Metadata: main.BuildPlanMetadata{
+						Metadata: puma.BuildPlanMetadata{
 							Launch: true,
 						},
 					},

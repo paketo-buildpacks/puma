@@ -5,14 +5,15 @@ import (
 
 	"github.com/paketo-buildpacks/packit"
 	"github.com/paketo-buildpacks/packit/scribe"
+	"github.com/paketo-community/puma"
 )
 
 func main() {
-	parser := NewGemfileParser()
+	parser := puma.NewGemfileParser()
 	logger := scribe.NewLogger(os.Stdout)
 
-	detect := Detect(parser)
-	build := Build(logger)
-
-	packit.Run(detect, build)
+	packit.Run(
+		puma.Detect(parser),
+		puma.Build(logger),
+	)
 }
