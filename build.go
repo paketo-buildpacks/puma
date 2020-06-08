@@ -1,4 +1,4 @@
-package main
+package puma
 
 import (
 	"github.com/paketo-buildpacks/packit"
