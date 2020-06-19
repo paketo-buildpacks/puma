@@ -28,22 +28,22 @@ func TestIntegration(t *testing.T) {
 	Expect := NewWithT(t).Expect
 
 	root, err := filepath.Abs("./..")
-	Expect(err).ToNot(HaveOccurred())
+	Expect(err).NotTo(HaveOccurred())
 
 	pumaBuildpack, err = dagger.PackageBuildpack(root)
-	Expect(err).ToNot(HaveOccurred())
+	Expect(err).NotTo(HaveOccurred())
 
 	// HACK: we need to fix dagger and the package.sh scripts so that this isn't required
 	pumaBuildpack = fmt.Sprintf("%s.tgz", pumaBuildpack)
 
 	mriBuildpack, err = dagger.GetLatestCommunityBuildpack("paketo-community", "mri")
-	Expect(err).ToNot(HaveOccurred())
+	Expect(err).NotTo(HaveOccurred())
 
 	bundlerBuildpack, err = dagger.GetLatestCommunityBuildpack("paketo-community", "bundler")
-	Expect(err).ToNot(HaveOccurred())
+	Expect(err).NotTo(HaveOccurred())
 
 	bundleInstallBuildpack, err = dagger.GetLatestCommunityBuildpack("paketo-community", "bundle-install")
-	Expect(err).ToNot(HaveOccurred())
+	Expect(err).NotTo(HaveOccurred())
 
 	defer func() {
 		dagger.DeleteBuildpack(pumaBuildpack)
