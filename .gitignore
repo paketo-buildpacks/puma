@@ -1,6 +1,4 @@
 .DS_Store
-*.tgz
 .idea
-.bin
-puma_*
-/bin
+/.bin
+/build
