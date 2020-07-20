@@ -1,5 +1,7 @@
 # Puma Cloud Native Buildpack
 
+## `gcr.io/paketo-community/puma`
+
 The Puma CNB sets the start command for a given ruby application that runs on a puma server.
 
 ## Integration
