@@ -2,7 +2,7 @@
 
 ## `gcr.io/paketo-community/puma`
 
-The Puma CNB sets the start command for a given ruby application that runs on a puma server.
+The Puma CNB sets the start command for a given ruby application that runs on a [puma server](https://puma.io).
 
 ## Integration
 
