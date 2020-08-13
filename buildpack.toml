@@ -2,7 +2,7 @@ api = "0.2"
 
 [buildpack]
   id = "paketo-community/puma"
-  name = "Puma Buildpack"
+  name = "Paketo Puma Buildpack"
 
 [[stacks]]
   id = "org.cloudfoundry.stacks.cflinuxfs3"
