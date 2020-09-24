@@ -8,7 +8,7 @@ import (
 
 	"github.com/paketo-buildpacks/packit"
 	"github.com/paketo-buildpacks/packit/scribe"
-	"github.com/paketo-community/puma"
+	"github.com/paketo-buildpacks/puma"
 	"github.com/sclevine/spec"
 
 	. "github.com/onsi/gomega"

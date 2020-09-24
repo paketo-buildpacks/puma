@@ -1,4 +1,4 @@
-module github.com/paketo-community/puma
+module github.com/paketo-buildpacks/puma
 
 go 1.14
 
