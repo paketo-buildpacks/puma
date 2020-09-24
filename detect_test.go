@@ -9,8 +9,8 @@ import (
 	"io/ioutil"
 
 	"github.com/paketo-buildpacks/packit"
-	"github.com/paketo-community/puma"
-	"github.com/paketo-community/puma/fakes"
+	"github.com/paketo-buildpacks/puma"
+	"github.com/paketo-buildpacks/puma/fakes"
 	"github.com/sclevine/spec"
 
 	. "github.com/onsi/gomega"

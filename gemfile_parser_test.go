@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/paketo-community/puma"
+	"github.com/paketo-buildpacks/puma"
 	"github.com/sclevine/spec"
 
 	. "github.com/onsi/gomega"
