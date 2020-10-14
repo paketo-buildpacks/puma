@@ -64,7 +64,7 @@ func testSimpleApp(t *testing.T, context spec.G, it spec.S) {
 					settings.Buildpacks.BundleInstall.Online,
 					settings.Buildpacks.Puma.Online,
 				).
-				WithNoPull().
+				WithPullPolicy("never").
 				Execute(name, source)
 			Expect(err).NotTo(HaveOccurred(), logs.String())
 
