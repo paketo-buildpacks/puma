@@ -36,8 +36,11 @@ func testGemfileParser(t *testing.T, context spec.G, it spec.S) {
 	context("Parse", func() {
 		context("when using puma", func() {
 			it("parses correctly", func() {
-				const GEMFILE_CONTENTS = `source 'https://rubygems.org'
-gem 'puma'`
+				const GEMFILE_CONTENTS = `
+source 'https://rubygems.org' do
+	gem 'puma'
+end
+`
 
 				Expect(ioutil.WriteFile(path, []byte(GEMFILE_CONTENTS), 0644)).To(Succeed())
 
