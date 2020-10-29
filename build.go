@@ -9,9 +9,10 @@ func Build(logger scribe.Logger) packit.BuildFunc {
 	return func(context packit.BuildContext) (packit.BuildResult, error) {
 		logger.Title("%s %s", context.BuildpackInfo.Name, context.BuildpackInfo.Version)
 
-		logger.Process("Writing start command")
-		command := "bundle exec puma"
-		logger.Subprocess(command)
+		command := "bundle exec puma --bind tcp://0.0.0.0:${PORT:-9292}"
+
+		logger.Process("Assigning launch processes")
+		logger.Subprocess("web: %s", command)
 
 		return packit.BuildResult{
 			Processes: []packit.Process{

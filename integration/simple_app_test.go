@@ -68,7 +68,7 @@ func testSimpleApp(t *testing.T, context spec.G, it spec.S) {
 				Execute(name, source)
 			Expect(err).NotTo(HaveOccurred(), logs.String())
 
-			container, err = docker.Container.Run.WithEnv(map[string]string{"PORT": "9292"}).Execute(image.ID)
+			container, err = docker.Container.Run.WithEnv(map[string]string{"PORT": "8080"}).Execute(image.ID)
 			Expect(err).NotTo(HaveOccurred())
 
 			Eventually(container).Should(BeAvailable())
@@ -85,8 +85,8 @@ func testSimpleApp(t *testing.T, context spec.G, it spec.S) {
 
 			Expect(logs).To(ContainLines(
 				MatchRegexp(fmt.Sprintf(`%s \d+\.\d+\.\d+`, settings.Buildpack.Name)),
-				"  Writing start command",
-				"    bundle exec puma",
+				"  Assigning launch processes",
+				"    web: bundle exec puma --bind tcp://0.0.0.0:${PORT:-9292}",
 			))
 		})
 	})

@@ -73,14 +73,13 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 			Processes: []packit.Process{
 				{
 					Type:    "web",
-					Command: "bundle exec puma",
+					Command: "bundle exec puma --bind tcp://0.0.0.0:${PORT:-9292}",
 				},
 			},
 		}))
 
 		Expect(buffer.String()).To(ContainSubstring("Some Buildpack some-version"))
-		Expect(buffer.String()).To(ContainSubstring("Writing start command"))
-
+		Expect(buffer.String()).To(ContainSubstring("Assigning launch processes"))
+		Expect(buffer.String()).To(ContainSubstring("web: bundle exec puma --bind tcp://0.0.0.0:${PORT:-9292}"))
 	})
-
 }
