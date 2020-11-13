@@ -15,10 +15,12 @@ func Build(logger scribe.Logger) packit.BuildFunc {
 		logger.Subprocess("web: %s", command)
 
 		return packit.BuildResult{
-			Processes: []packit.Process{
-				{
-					Type:    "web",
-					Command: command,
+			Launch: packit.LaunchMetadata{
+				Processes: []packit.Process{
+					{
+						Type:    "web",
+						Command: command,
+					},
 				},
 			},
 		}, nil
