@@ -15,7 +15,7 @@ import (
 	. "github.com/paketo-buildpacks/occam/matchers"
 )
 
-func testSimpleApp(t *testing.T, context spec.G, it spec.S) {
+func testDefaultApp(t *testing.T, context spec.G, it spec.S) {
 	var (
 		Expect     = NewWithT(t).Expect
 		Eventually = NewWithT(t).Eventually
@@ -29,7 +29,7 @@ func testSimpleApp(t *testing.T, context spec.G, it spec.S) {
 		docker = occam.NewDocker()
 	})
 
-	context("when building a simple app", func() {
+	context("when building a default puma app", func() {
 		var (
 			image     occam.Image
 			container occam.Container
@@ -53,7 +53,7 @@ func testSimpleApp(t *testing.T, context spec.G, it spec.S) {
 
 		it("creates a working OCI image with a puma start command", func() {
 			var err error
-			source, err = occam.Source(filepath.Join("testdata", "simple_app"))
+			source, err = occam.Source(filepath.Join("testdata", "default_app"))
 			Expect(err).NotTo(HaveOccurred())
 
 			var logs fmt.Stringer
@@ -81,7 +81,7 @@ func testSimpleApp(t *testing.T, context spec.G, it spec.S) {
 
 			content, err := ioutil.ReadAll(response.Body)
 			Expect(err).NotTo(HaveOccurred())
-			Expect(string(content)).To(ContainSubstring("Hello world!"))
+			Expect(string(content)).To(ContainSubstring("Hello World"))
 
 			Expect(logs).To(ContainLines(
 				MatchRegexp(fmt.Sprintf(`%s \d+\.\d+\.\d+`, settings.Buildpack.Name)),

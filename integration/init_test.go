@@ -83,6 +83,7 @@ func TestIntegration(t *testing.T) {
 	SetDefaultEventuallyTimeout(10 * time.Second)
 
 	suite := spec.New("Integration", spec.Parallel(), spec.Report(report.Terminal{}))
-	suite("SimpleApp", testSimpleApp)
+	suite("DefaultApp", testDefaultApp)
+	suite("SinatraApp", testSinatraApp)
 	suite.Run(t)
 }
