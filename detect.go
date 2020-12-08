@@ -2,7 +2,6 @@ package puma
 
 import (
 	"fmt"
-	"os"
 	"path/filepath"
 
 	"github.com/paketo-buildpacks/packit"
@@ -19,14 +18,6 @@ type BuildPlanMetadata struct {
 
 func Detect(gemfileParser Parser) packit.DetectFunc {
 	return func(context packit.DetectContext) (packit.DetectResult, error) {
-		_, err := os.Stat(filepath.Join(context.WorkingDir, "config.ru"))
-		if err != nil {
-			if os.IsNotExist(err) {
-				return packit.DetectResult{}, packit.Fail
-			}
-			return packit.DetectResult{}, fmt.Errorf("failed to stat config.ru: %w", err)
-		}
-
 		hasPuma, err := gemfileParser.Parse(filepath.Join(context.WorkingDir, "Gemfile"))
 		if err != nil {
 			return packit.DetectResult{}, fmt.Errorf("failed to parse Gemfile: %w", err)
