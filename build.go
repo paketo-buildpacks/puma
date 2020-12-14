@@ -13,6 +13,7 @@ func Build(logger scribe.Logger) packit.BuildFunc {
 
 		logger.Process("Assigning launch processes")
 		logger.Subprocess("web: %s", command)
+		logger.Break()
 
 		return packit.BuildResult{
 			Launch: packit.LaunchMetadata{
