@@ -1,12 +1,12 @@
 api = "0.2"
 
 [buildpack]
+  homepage = "https://github.com/paketo-buildpacks/puma"
   id = "paketo-buildpacks/puma"
   name = "Paketo Puma Buildpack"
-  homepage = "https://github.com/paketo-buildpacks/puma"
 
 [metadata]
-  include-files = ["bin/build","bin/detect", "bin/run", "buildpack.toml"]
+  include-files = ["bin/build", "bin/detect", "bin/run", "buildpack.toml"]
   pre-package = "./scripts/build.sh"
 
 [[stacks]]
@@ -14,4 +14,3 @@ api = "0.2"
 
 [[stacks]]
   id = "io.buildpacks.stacks.bionic"
-
