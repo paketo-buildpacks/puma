@@ -25,7 +25,7 @@ func (p GemfileParser) Parse(path string) (bool, error) {
 	defer file.Close()
 
 	quotes := `["']`
-	pumaRe := regexp.MustCompile(fmt.Sprintf(`gem %spuma%s`, quotes, quotes))
+	pumaRe := regexp.MustCompile(fmt.Sprintf(`^\s*gem %spuma%s`, quotes, quotes))
 	scanner := bufio.NewScanner(file)
 
 	for scanner.Scan() {
