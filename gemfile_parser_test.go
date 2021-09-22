@@ -35,7 +35,21 @@ func testGemfileParser(t *testing.T, context spec.G, it spec.S) {
 
 	context("Parse", func() {
 		context("when using puma", func() {
-			it("parses correctly", func() {
+			it("parses correctly without spaces", func() {
+				const GEMFILE_CONTENTS = `
+source 'https://rubygems.org'
+
+gem 'puma'
+`
+
+				Expect(ioutil.WriteFile(path, []byte(GEMFILE_CONTENTS), 0644)).To(Succeed())
+
+				hasPuma, err := parser.Parse(path)
+				Expect(err).NotTo(HaveOccurred())
+				Expect(hasPuma).To(Equal(true))
+			})
+
+			it("parses correctly with spaces", func() {
 				const GEMFILE_CONTENTS = `
 source 'https://rubygems.org' do
 	gem 'puma'
