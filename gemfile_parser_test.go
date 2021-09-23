@@ -64,6 +64,20 @@ end
 			})
 		})
 
+		context("when puma is commented out", func() {
+			it("parses correctly", func() {
+				const GEMFILE_CONTENTS = `source 'https://rubygems.org'
+
+				#gem 'puma`
+
+				Expect(ioutil.WriteFile(path, []byte(GEMFILE_CONTENTS), 0644)).To(Succeed())
+
+				hasPuma, err := parser.Parse(path)
+				Expect(err).NotTo(HaveOccurred())
+				Expect(hasPuma).To(Equal(false))
+			})
+		})
+
 		context("when not using puma", func() {
 			it("parses correctly", func() {
 				const GEMFILE_CONTENTS = `source 'https://rubygems.org'`
