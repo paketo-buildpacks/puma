@@ -1,4 +1,4 @@
-api = "0.2"
+api = "0.5"
 
 [buildpack]
   homepage = "https://github.com/paketo-buildpacks/puma"
@@ -8,9 +8,6 @@ api = "0.2"
 [metadata]
   include-files = ["bin/build", "bin/detect", "bin/run", "buildpack.toml"]
   pre-package = "./scripts/build.sh"
-
-[[stacks]]
-  id = "org.cloudfoundry.stacks.cflinuxfs3"
 
 [[stacks]]
   id = "io.buildpacks.stacks.bionic"
