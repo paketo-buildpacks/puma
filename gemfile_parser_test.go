@@ -1,7 +1,6 @@
 package puma_test
 
 import (
-	"io/ioutil"
 	"os"
 	"testing"
 
@@ -20,7 +19,7 @@ func testGemfileParser(t *testing.T, context spec.G, it spec.S) {
 	)
 
 	it.Before(func() {
-		file, err := ioutil.TempFile("", "Gemfile")
+		file, err := os.CreateTemp("", "Gemfile")
 		Expect(err).NotTo(HaveOccurred())
 		defer file.Close()
 
@@ -36,57 +35,46 @@ func testGemfileParser(t *testing.T, context spec.G, it spec.S) {
 	context("Parse", func() {
 		context("when using puma", func() {
 			it("parses correctly without spaces", func() {
-				const GEMFILE_CONTENTS = `
-source 'https://rubygems.org'
-
+				Expect(os.WriteFile(path, []byte(`source 'https://rubygems.org'
 gem 'puma'
-`
-
-				Expect(ioutil.WriteFile(path, []byte(GEMFILE_CONTENTS), 0644)).To(Succeed())
+`), 0600)).To(Succeed())
 
 				hasPuma, err := parser.Parse(path)
 				Expect(err).NotTo(HaveOccurred())
-				Expect(hasPuma).To(Equal(true))
+				Expect(hasPuma).To(BeTrue())
 			})
 
 			it("parses correctly with spaces", func() {
-				const GEMFILE_CONTENTS = `
-source 'https://rubygems.org' do
+				Expect(os.WriteFile(path, []byte(`source 'https://rubygems.org' do
 	gem 'puma'
 end
-`
-
-				Expect(ioutil.WriteFile(path, []byte(GEMFILE_CONTENTS), 0644)).To(Succeed())
+`), 0600)).To(Succeed())
 
 				hasPuma, err := parser.Parse(path)
 				Expect(err).NotTo(HaveOccurred())
-				Expect(hasPuma).To(Equal(true))
+				Expect(hasPuma).To(BeTrue())
 			})
 		})
 
 		context("when puma is commented out", func() {
 			it("parses correctly", func() {
-				const GEMFILE_CONTENTS = `source 'https://rubygems.org'
+				Expect(os.WriteFile(path, []byte(`source 'https://rubygems.org'
 
-				#gem 'puma`
-
-				Expect(ioutil.WriteFile(path, []byte(GEMFILE_CONTENTS), 0644)).To(Succeed())
+				#gem 'puma`), 0600)).To(Succeed())
 
 				hasPuma, err := parser.Parse(path)
 				Expect(err).NotTo(HaveOccurred())
-				Expect(hasPuma).To(Equal(false))
+				Expect(hasPuma).To(BeFalse())
 			})
 		})
 
 		context("when not using puma", func() {
 			it("parses correctly", func() {
-				const GEMFILE_CONTENTS = `source 'https://rubygems.org'`
-
-				Expect(ioutil.WriteFile(path, []byte(GEMFILE_CONTENTS), 0644)).To(Succeed())
+				Expect(os.WriteFile(path, []byte(`source 'https://rubygems.org'`), 0600)).To(Succeed())
 
 				hasPuma, err := parser.Parse(path)
 				Expect(err).NotTo(HaveOccurred())
-				Expect(hasPuma).To(Equal(false))
+				Expect(hasPuma).To(BeFalse())
 			})
 		})
 
@@ -98,7 +86,7 @@ end
 			it("returns all false", func() {
 				hasPuma, err := parser.Parse(path)
 				Expect(err).NotTo(HaveOccurred())
-				Expect(hasPuma).To(Equal(false))
+				Expect(hasPuma).To(BeFalse())
 			})
 		})
 
