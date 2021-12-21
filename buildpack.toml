@@ -1,9 +1,15 @@
 api = "0.6"
 
 [buildpack]
+  description = "A buildpack for starting a puma server for a Ruby app"
   homepage = "https://github.com/paketo-buildpacks/puma"
   id = "paketo-buildpacks/puma"
+  keywords = ["ruby", "puma"]
   name = "Paketo Puma Buildpack"
+
+  [[buildpack.licenses]]
+    type = "Apache-2.0"
+    uri = "https://github.com/paketo-buildpacks/puma/blob/main/LICENSE"
 
 [metadata]
   include-files = ["bin/build", "bin/detect", "bin/run", "buildpack.toml"]
