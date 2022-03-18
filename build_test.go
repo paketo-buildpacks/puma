@@ -5,8 +5,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/paketo-buildpacks/packit"
-	"github.com/paketo-buildpacks/packit/scribe"
+	"github.com/paketo-buildpacks/packit/v2"
+	"github.com/paketo-buildpacks/packit/v2/scribe"
 	"github.com/paketo-buildpacks/puma"
 	"github.com/sclevine/spec"
 
@@ -37,7 +37,7 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 		Expect(err).NotTo(HaveOccurred())
 
 		buffer = bytes.NewBuffer(nil)
-		logger := scribe.NewLogger(buffer)
+		logger := scribe.NewEmitter(buffer)
 
 		build = puma.Build(logger)
 	})
@@ -73,7 +73,9 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 				Processes: []packit.Process{
 					{
 						Type:    "web",
-						Command: "bundle exec puma --bind tcp://0.0.0.0:${PORT:-9292}",
+						Command: "bash",
+						Args:    []string{"-c", "bundle exec puma --bind tcp://0.0.0.0:${PORT:-9292}"},
+						Direct:  true,
 						Default: true,
 					},
 				},
@@ -82,6 +84,6 @@ func testBuild(t *testing.T, context spec.G, it spec.S) {
 
 		Expect(buffer.String()).To(ContainSubstring("Some Buildpack some-version"))
 		Expect(buffer.String()).To(ContainSubstring("Assigning launch processes"))
-		Expect(buffer.String()).To(ContainSubstring("web: bundle exec puma --bind tcp://0.0.0.0:${PORT:-9292}"))
+		Expect(buffer.String()).To(ContainSubstring("web (default): bash -c bundle exec puma --bind tcp://0.0.0.0:${PORT:-9292}"))
 	})
 }

@@ -78,8 +78,8 @@ func testDefaultApp(t *testing.T, context spec.G, it spec.S) {
 
 			Expect(logs).To(ContainLines(
 				MatchRegexp(fmt.Sprintf(`%s \d+\.\d+\.\d+`, settings.Buildpack.Name)),
-				"  Assigning launch processes",
-				"    web: bundle exec puma --bind tcp://0.0.0.0:${PORT:-9292}",
+				"  Assigning launch processes:",
+				"    web (default): bash -c bundle exec puma --bind tcp://0.0.0.0:${PORT:-9292}",
 			))
 		})
 	})
