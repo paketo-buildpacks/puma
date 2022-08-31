@@ -5,7 +5,7 @@ api = "0.7"
   homepage = "https://github.com/paketo-buildpacks/puma"
   id = "paketo-buildpacks/puma"
   keywords = ["ruby", "puma"]
-  name = "Paketo Puma Buildpack"
+  name = "Paketo Buildpack for Puma"
 
   [[buildpack.licenses]]
     type = "Apache-2.0"
