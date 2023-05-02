@@ -24,7 +24,7 @@ func Detect(gemfileParser Parser) packit.DetectFunc {
 		}
 
 		if !hasPuma {
-			return packit.DetectResult{}, packit.Fail
+			return packit.DetectResult{}, packit.Fail.WithMessage("puma was not found in the Gemfile")
 		}
 
 		return packit.DetectResult{
