@@ -3,7 +3,7 @@ module github.com/paketo-buildpacks/puma
 go 1.16
 
 require (
-	github.com/BurntSushi/toml v1.3.1
+	github.com/BurntSushi/toml v1.3.2
 	github.com/onsi/gomega v1.27.8
 	github.com/opencontainers/runc v1.1.5 // indirect
 	github.com/paketo-buildpacks/occam v0.16.0
