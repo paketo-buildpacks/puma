@@ -1,5 +1,8 @@
 {
-  "builders": ["paketobuildpacks/builder:buildpackless-base", "paketobuildpacks/builder-jammy-buildpackless-base"],
+  "builders": [
+    "index.docker.io/paketobuildpacks/builder-jammy-buildpackless-base:latest",
+    "index.docker.io/paketobuildpacks/ubuntu-noble-builder-buildpackless:latest"
+  ],
   "bundle-install": "github.com/paketo-buildpacks/bundle-install",
   "bundler": "github.com/paketo-buildpacks/bundler",
   "mri": "github.com/paketo-buildpacks/mri"
